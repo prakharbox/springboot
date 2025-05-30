@@ -1,6 +1,8 @@
 package com.example.taskmanager.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +33,6 @@ public class TaskService {
 
     public Task updateTask(Long id, Task task) {
         if (taskRepository.existsById(id)) {
-            task.setId(id);
             return taskRepository.save(task);
         }
         return null;
@@ -43,5 +44,28 @@ public class TaskService {
             return true;
         }
         return false;
+    }
+
+    public Task getTaskByTitle(String title) {
+        return taskRepository.findByTitle(title);
+    }
+
+    public Task updateTaskPartially(Long id, Map<String, Object> updates) {
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        if (optionalTask.isPresent()) {
+            Task task = optionalTask.get();
+            if (updates.containsKey("title")) {
+                task.setTitle((String) updates.get("title"));
+            }
+            if (updates.containsKey("description")) {
+                task.setDescription((String) updates.get("description"));
+            }
+            if (updates.containsKey("date")) {
+                String dateStr = (String) updates.get("date");
+                task.setDate(java.time.LocalDateTime.parse(dateStr));
+            }
+            return taskRepository.save(task);
+        }
+        return null;
     }
 } 

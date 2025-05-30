@@ -1,4 +1,6 @@
 com\example\taskmanager\controller\TaskController.class
+com\example\taskmanager\controller\TaskExceptionHandler.class
+com\example\taskmanager\controller\TaskController$TaskNotFoundException.class
 com\example\taskmanager\model\Task.class
 com\example\taskmanager\service\TaskService.class
 com\example\taskmanager\TaskManagerApplication.class
